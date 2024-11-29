@@ -31,7 +31,9 @@ function ColumnContainer(props: Props) {
   const [title, setTitle] = useState(column.title);
 
   // Memoize the task IDs to avoid unnecessary re-renders
-  const tasksIds = useMemo(() => tasks.map((task) => task.id), [tasks]);
+  const tasksIds = useMemo(() => {
+    return tasks.map((task) => task.id);
+  }, [tasks]);
 
   // DnD Kit Sortable setup
   const {

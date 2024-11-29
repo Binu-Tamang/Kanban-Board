@@ -40,9 +40,15 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
     setMouseIsOver(false);
   };
 
+  if (isDragging) {
+    return (
+      <div ref={setNodeRef} style={style} className="opacity-50 bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500 cursor-grab relative" />
+    );
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); 
+      e.preventDefault();
       updateTask(task.id, editContent);
       setEditMode(false);
     }
@@ -50,11 +56,13 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
 
   if (editMode) {
     return (
-      <div ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className="bg-mainBackgroundColor p-4 rounded-xl flex flex-col gap-2">
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+        className="bg-mainBackgroundColor p-4 rounded-xl flex flex-col gap-2"
+      >
         <div className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative">
           <textarea
             className="h-[90%] w-full resize-none border-none rounded bg-transparent text-white focus:outline-none"
@@ -71,7 +79,8 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
   }
 
   return (
-    <div ref={setNodeRef}
+    <div
+      ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
@@ -80,7 +89,9 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
       onMouseLeave={() => setMouseIsOver(false)}
       onClick={toggleEditMode}
     >
-      <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-auto whitespace-pre-wrap">{task.content}</p>
+      <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-auto whitespace-pre-wrap">
+        {task.content}
+      </p>
       {mouseIsOver && (
         <button
           onClick={(e) => {
