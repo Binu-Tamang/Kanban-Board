@@ -68,11 +68,12 @@ function KanbanBoard() {
   };
 
   const deleteColumn = (id: string) => {
-    setColumns((prevColumns) => prevColumns.filter((column) => column.id !== id));
-  
+    setColumns((prevColumns) =>
+      prevColumns.filter((column) => column.id !== id)
+    );
+
     setTasks((prevTasks) => prevTasks.filter((task) => task.columnId !== id));
   };
-  
 
   const updateColumn = (id: string, title: string) => {
     setColumns((prevColumns) =>
@@ -178,63 +179,72 @@ function KanbanBoard() {
   };
 
   return (
-    <div className="m-auto flex min-h-screen w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
-      <DndContext
-        sensors={sensors}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragOver={onDragOver}
-      >
-        <div className="m-auto flex gap-2">
-          <SortableContext items={columns.map((column) => column.id)}>
-            {columns.map((column) => (
-              <ColumnContainer
-                key={column.id}
-                column={column}
-                deleteColumn={deleteColumn}
-                updateColumn={updateColumn}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter((task) => task.columnId === column.id)}
-              />
-            ))}
-          </SortableContext>
-          <button
-            onClick={createNewColumn}
-            className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 ring-rose-500 hover:ring-2 flex gap-4 items-center justify-start"
-            aria-label="Add a new column"
-          >
-            <PlusIcon /> Add Column
-          </button>
+    <div className="m-auto w-full text-center px-[40px] flex justify-center">
+      <div>
+        <div className="mb-4 text-teal-950 w-[350px] min-w-[350px]">
+          <input
+            type="text"
+            placeholder="Search tasks"
+            className="p-2 border w-full resize-none border-none rounded focus:outline-none"
+          />
         </div>
+        <DndContext
+          sensors={sensors}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+        >
+          <div className="m-auto flex gap-2">
+            <SortableContext items={columns.map((column) => column.id)}>
+              {columns.map((column) => (
+                <ColumnContainer
+                  key={column.id}
+                  column={column}
+                  deleteColumn={deleteColumn}
+                  updateColumn={updateColumn}
+                  createTask={createTask}
+                  deleteTask={deleteTask}
+                  updateTask={updateTask}
+                  tasks={tasks.filter((task) => task.columnId === column.id)}
+                />
+              ))}
+            </SortableContext>
+            <button
+              onClick={createNewColumn}
+              className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 ring-rose-500 hover:ring-2 flex gap-4 items-center justify-start"
+              aria-label="Add a new column"
+            >
+              <PlusIcon /> Add Column
+            </button>
+          </div>
 
-        {createPortal(
-          <DragOverlay>
-            {activeColumn ? (
-              <ColumnContainer
-                column={activeColumn}
-                deleteColumn={() => {}}
-                updateColumn={() => {}}
-                createTask={() => {}}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
-                )}
-              />
-            ) : null}
-            {activeTask ? (
-              <TaskCard
-                task={activeTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-              />
-            ) : null}
-          </DragOverlay>,
-          document.body
-        )}
-      </DndContext>
+          {createPortal(
+            <DragOverlay>
+              {activeColumn ? (
+                <ColumnContainer
+                  column={activeColumn}
+                  deleteColumn={() => {}}
+                  updateColumn={() => {}}
+                  createTask={() => {}}
+                  deleteTask={deleteTask}
+                  updateTask={updateTask}
+                  tasks={tasks.filter(
+                    (task) => task.columnId === activeColumn.id
+                  )}
+                />
+              ) : null}
+              {activeTask ? (
+                <TaskCard
+                  task={activeTask}
+                  deleteTask={deleteTask}
+                  updateTask={updateTask}
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
+      </div>
     </div>
   );
 }
