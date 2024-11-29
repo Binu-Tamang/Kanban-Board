@@ -49,6 +49,14 @@ import {
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     };
   
+    const updateTask = (id: string, content: string) => {
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === id ? { ...task, content } : task
+        )
+      );
+    };
+  
     const createNewColumn = () => {
       const newColumn: Column = {
         id: uuidv4(),
@@ -73,8 +81,8 @@ import {
     };
   
     const onDragStart = (event: DragStartEvent) => {
-      const column = event.active.data.current?.column;
-      if (column?.id) {
+      const column = event.active.data.current?.column as Column | undefined;
+      if (column) {
         setActiveColumn(column);
       }
     };
@@ -117,13 +125,17 @@ import {
                   updateColumn={updateColumn}
                   createTask={createTask}
                   deleteTask={deleteTask}
+                  updateTask={updateTask}
                   tasks={tasks.filter((task) => task.columnId === column.id)}
                 />
               ))}
             </SortableContext>
             <button
               onClick={createNewColumn}
-              className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 ring-rose-500 hover:ring-2 flex gap-2 items-center justify-center"
+              className="
+                h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg 
+                bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 
+                ring-rose-500 hover:ring-2 flex gap-2 items-center justify-center"
               aria-label="Add a new column"
             >
               <PlusIcon /> Add Column
@@ -140,7 +152,10 @@ import {
                     updateColumn={() => {}}
                     createTask={() => {}}
                     deleteTask={deleteTask}
-                    tasks={tasks.filter((task) => task.columnId === activeColumn.id)}
+                    updateTask={updateTask}
+                    tasks={tasks.filter(
+                      (task) => task.columnId === activeColumn.id
+                    )}
                   />
                 </div>
               )}
