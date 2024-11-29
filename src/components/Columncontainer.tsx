@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import TrashIcon from "../icons/TrashIcon";
-import { Column, ID } from "../types";
+import { Column} from "../types";
 import { CSS } from "@dnd-kit/utilities";
 
 interface Props {
@@ -28,7 +28,7 @@ function ColumnContainer({ column, deleteColumn }: Props) {
     style={style}
     className="
       bg-columnBackgroundColor
-      opacity-60
+      opacity-40
       border-2
       border-rose-500
       w-[350px]
@@ -97,7 +97,7 @@ function ColumnContainer({ column, deleteColumn }: Props) {
         </div>
         <button
            onClick={() => {
-            console.log("Delete button clicked", column.id); // Debugging line
+            console.log("Delete button clicked", column.id); 
             deleteColumn(column.id);
           }}
           className="
