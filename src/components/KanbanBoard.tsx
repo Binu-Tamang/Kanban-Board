@@ -15,10 +15,11 @@ import { v4 as uuidv4 } from "uuid";
 import PlusIcon from "../icons/PlusIcon";
 import ColumnContainer from "../components/Columncontainer";
 import TaskCard from "../components/TaaskCard"; // Fixed typo
+import { Id } from "../types";
 
 interface Task {
   id: string;
-  columnId: string;
+  columnId: Id;
   content: string;
 }
 
@@ -39,7 +40,7 @@ function KanbanBoard() {
     })
   );
 
-  const createTask = (columnId: string) => {
+  const createTask = (columnId: Id) => {
     if (!columnId) return; // Ensure valid columnId
     const newTask: Task = {
       id: uuidv4(),
@@ -49,15 +50,24 @@ function KanbanBoard() {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
-  const deleteTask = (id: string) => {
+  // const deleteTask = (id: string) => {
+  //   setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  // };
+
+  const deleteTask = (id: Id) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
-  const updateTask = (id: string, content: string) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === id ? { ...task, content } : task))
-    );
-  };
+  // const updateTask = (id: string, content: string) => {
+  //   setTasks((prevTasks) =>
+  //     prevTasks.map((task) => (task.id === id ? { ...task, content } : task))
+  //   );
+  // };
+  const updateTask = (id: Id, content: string) => {
+  setTasks((prevTasks) =>
+    prevTasks.map((task) => (task.id === id ? { ...task, content } : task))
+  );
+};
 
   const createNewColumn = () => {
     const newColumn: Column = {
@@ -75,7 +85,14 @@ function KanbanBoard() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.columnId !== id));
   };
 
-  const updateColumn = (id: string, title: string) => {
+  // const updateColumn = (id: string, title: string) => {
+  //   setColumns((prevColumns) =>
+  //     prevColumns.map((column) =>
+  //       column.id === id ? { ...column, title } : column
+  //     )
+  //   );
+  // };
+  const updateColumn = (id: Id, title: string) => {
     setColumns((prevColumns) =>
       prevColumns.map((column) =>
         column.id === id ? { ...column, title } : column
@@ -144,7 +161,7 @@ function KanbanBoard() {
           const updatedTasks = [...prevTasks];
           updatedTasks[activeIndex] = {
             ...updatedTasks[activeIndex],
-            columnId: newColumnId, // Assign new column ID to the task
+            columnId: newColumnId.toString(), 
           };
 
           // Return the updated tasks without reordering

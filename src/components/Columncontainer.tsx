@@ -3,7 +3,8 @@ import { CSS } from "@dnd-kit/utilities";
 import { useMemo, useState } from "react";
 import PlusIcon from "../icons/PlusIcon";
 import TrashIcon from "../icons/TrashIcon";
-import { Column, Id, Task } from "../types";
+import { Column, Task } from "../types";
+import { Id } from '../types';
 import TaaskCard from "./TaaskCard";
 
 interface Props {
@@ -114,7 +115,7 @@ function ColumnContainer(props: Props) {
           )}
         </div>
         <button
-          onClick={() => deleteColumn(column.id)}
+         onClick={() => deleteColumn(column.id.toString())}
           aria-label="Delete column"
           className="stroke-gray-500 hover:stroke-white hover:bg-columnBackgroundColor rounded px-2 py-1"
         >
